@@ -1,7 +1,6 @@
 from flask import Flask, request, abort
 import os
 import psycopg2
-import json
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -19,18 +18,12 @@ from linebot.models import (
 app = Flask(__name__)
 
 # 環境変数取得
-# 環境変数取得
 ACCESS_TOKEN = os.environ["ACCESS_TOKEN"]
 CHANNEL_SECRET = os.environ["CHANNEL_SECRET"]
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
-line_bot_api = LineBotApi(ACCESS_TOKEN)
+line_bot_api = LineBotApi(CACCESS_TOKEN)
 handler = WebhookHandler(CHANNEL_SECRET)
-
-# 温泉のjson1ファイルを取得
-
-with open('onsendate.json')as f:
-    jsn =json.load(f)
     
 # Pythonでは呼び出す行より上に記述しないとエラーになる
 
@@ -209,9 +202,9 @@ def handle_message(event):
                 title='希望なし',
                 actions=[
                     PostbackTemplateAction(
-                        label='場所無し',
+                        label='場所なし',
                         data='callback',
-                        text='場所無し'
+                        text='場所なし'
                     )
                 ]
             )
@@ -226,73 +219,107 @@ def handle_message(event):
 #阿部スペース
     #「会津」に対しての返信 「求める景色」について質問する
     elif content in ['会津']:
+        
         carousel_columns = [
             CarouselColumn(
-                text='希望する景色を選択してください',
-                title='景色で検索',
+                text='希望す効能を選択してください',
+                title='効能で検索',
                 actions=[
                     PostbackTemplateAction(
                         label='会津.雪景色',
                         data='callback',
                         text='会津.雪景色'   
-                    )
-                ]
-            ),
-            CarouselColumn(
-                text='希望する景色を選択してください',
-                title='景色で検索',
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='会津.紅葉',
                         data='callback',
                         text='会津.紅葉'   
-                    )
-                ]
-            ),
-            CarouselColumn(
-                text='希望する景色を選択してください',
-                title='景色で検索',
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='会津.夜空',
                         data='callback',
-                        text='会津.夜空'
+                        text='会津.夜空'   
                     )
                 ]
             ),
             CarouselColumn(
-                text='希望する景色を選択してください',
-                title='景色で検索',
+                text='希望す効能を選択してください',
+                title='効能で検索',
                 actions=[
-                    PostbackTemplateAction(
+                     PostbackTemplateAction(
                         label='会津.川 or 海',
                         data='callback',
-                        text='会津.川 or 海'
-                    )
-                ]
-            ),
-            CarouselColumn(
-                text='希望する景色を選択してください',
-                title='景色で検索',
-                actions=[
-                    PostbackTemplateAction(
+                        text='会津.川 or 海'   
+                    ),
+                     PostbackTemplateAction(
                         label='会津.森',
                         data='callback',
-                        text='会津.森'
+                        text='会津.森'   
+                    ),
+                     PostbackTemplateAction(
+                        label='会津.希望なし',
+                        data='callback',
+                        text='会津.希望なし'   
+                    )
+                    
+                ]
+            )
+            
+        ]
+        message_template = CarouselTemplate(columns=carousel_columns)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TemplateSendMessage(alt_text='carousel template', template=message_template)
+        )
+    
+     #「会津.雪景色」に対しての返信 「求める効能」について質問する
+    elif content in ['会津.雪景色']:
+        
+        carousel_columns = [
+            CarouselColumn(
+                text='希望す効能を選択してください',
+                title='効能で検索',
+                actions=[
+                    PostbackTemplateAction(
+                        label='会津.雪景色.美肌',
+                        data='callback',
+                        text='会津.雪景色.美肌'   
+                    ),
+                    PostbackTemplateAction(
+                        label='会津.雪景色.傷',
+                        data='callback',
+                        text='会津.雪景色.傷'   
+                    ),
+                    PostbackTemplateAction(
+                        label='会津.雪景色.貧血',
+                        data='callback',
+                        text='会津.雪景色.貧血'   
                     )
                 ]
             ),
             CarouselColumn(
-                text='希望する景色を選択してください',
-                title='希望なし',
+                text='希望す効能を選択してください',
+                title='効能で検索',
                 actions=[
-                    PostbackTemplateAction(
-                        label='会津.景色なし',
+                     PostbackTemplateAction(
+                        label='会津.雪景色.生活習慣病',
                         data='callback',
-                        text='会津.景色なし'
+                        text='会津.雪景色.生活習慣病'   
+                    ),
+                     PostbackTemplateAction(
+                        label='会津.雪景色.皮膚病',
+                        data='callback',
+                        text='会津.雪景色.皮膚病'   
+                    ),
+                     PostbackTemplateAction(
+                        label='会津.雪景色.希望なし',
+                        data='callback',
+                        text='会津.雪景色.希望なし'   
                     )
+                    
                 ]
             )
+            
         ]
         message_template = CarouselTemplate(columns=carousel_columns)
         line_bot_api.reply_message(
@@ -301,10 +328,282 @@ def handle_message(event):
         )
         
     
-
-
+     #「会津.紅葉」に対しての返信 「求める効能」について質問する
+    elif content in ['会津.紅葉']:
         
-    
+        carousel_columns = [
+            CarouselColumn(
+                text='希望す効能を選択してください',
+                title='効能で検索',
+                actions=[
+                    PostbackTemplateAction(
+                        label='会津.紅葉.美肌',
+                        data='callback',
+                        text='会津.紅葉.美肌'   
+                    ),
+                    PostbackTemplateAction(
+                        label='会津.紅葉.傷',
+                        data='callback',
+                        text='会津.紅葉.傷'   
+                    ),
+                    PostbackTemplateAction(
+                        label='会津.紅葉.貧血',
+                        data='callback',
+                        text='会津.紅葉.貧血'   
+                    )
+                ]
+            ),
+            CarouselColumn(
+                text='希望す効能を選択してください',
+                title='効能で検索',
+                actions=[
+                     PostbackTemplateAction(
+                        label='会津.紅葉.生活習慣病',
+                        data='callback',
+                        text='会津.紅葉.生活習慣病'   
+                    ),
+                     PostbackTemplateAction(
+                        label='会津.紅葉.皮膚病',
+                        data='callback',
+                        text='会津.紅葉.皮膚病'   
+                    ),
+                     PostbackTemplateAction(
+                        label='会津.紅葉.希望なし',
+                        data='callback',
+                        text='会津.紅葉.希望なし'   
+                    )
+                    
+                ]
+            )
+            
+        ]
+        message_template = CarouselTemplate(columns=carousel_columns)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TemplateSendMessage(alt_text='carousel template', template=message_template)
+        )
+        
+        
+    #「会津.夜空」に対しての返信 「求める効能」について質問する
+    elif content in ['会津.夜空']:
+        
+        carousel_columns = [
+            CarouselColumn(
+                text='希望す効能を選択してください',
+                title='効能で検索',
+                actions=[
+                    PostbackTemplateAction(
+                        label='会津.夜空.美肌',
+                        data='callback',
+                        text='会津.夜空.美肌'   
+                    ),
+                    PostbackTemplateAction(
+                        label='会津.夜空.傷',
+                        data='callback',
+                        text='会津.夜空.傷'   
+                    ),
+                    PostbackTemplateAction(
+                        label='会津.夜空.貧血',
+                        data='callback',
+                        text='会津.夜空.貧血'   
+                    )
+                ]
+            ),
+            CarouselColumn(
+                text='希望す効能を選択してください',
+                title='効能で検索',
+                actions=[
+                     PostbackTemplateAction(
+                        label='会津.夜空.生活習慣病',
+                        data='callback',
+                        text='会津.夜空.生活習慣病'   
+                    ),
+                     PostbackTemplateAction(
+                        label='会津.夜空.皮膚病',
+                        data='callback',
+                        text='会津.夜空.皮膚病'   
+                    ),
+                     PostbackTemplateAction(
+                        label='会津.夜空.希望なし',
+                        data='callback',
+                        text='会津.夜空.希望なし'   
+                    )
+                    
+                ]
+            )
+            
+        ]
+        message_template = CarouselTemplate(columns=carousel_columns)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TemplateSendMessage(alt_text='carousel template', template=message_template)
+        )
+        
+     #「会津.川 or 海」に対しての返信 「求める効能」について質問する
+    elif content in ['会津.川 or 海']:
+        
+        carousel_columns = [
+            CarouselColumn(
+                text='希望す効能を選択してください',
+                title='効能で検索',
+                actions=[
+                    PostbackTemplateAction(
+                        label='会津.川 or 海.美肌',
+                        data='callback',
+                        text='会津.川 or 海.美肌'   
+                    ),
+                    PostbackTemplateAction(
+                        label='会津.川 or 海.傷',
+                        data='callback',
+                        text='会津.川 or 海.傷'   
+                    ),
+                    PostbackTemplateAction(
+                        label='会津.川 or 海.貧血',
+                        data='callback',
+                        text='会津.川 or 海.貧血'   
+                    )
+                ]
+            ),
+            CarouselColumn(
+                text='希望す効能を選択してください',
+                title='効能で検索',
+                actions=[
+                     PostbackTemplateAction(
+                        label='会津.川 or 海.生活習慣病',
+                        data='callback',
+                        text='会津.川 or 海.生活習慣病'   
+                    ),
+                     PostbackTemplateAction(
+                        label='会津.川 or 海.皮膚病',
+                        data='callback',
+                        text='会津.川 or 海.皮膚病'   
+                    ),
+                     PostbackTemplateAction(
+                        label='会津.川 or 海.希望なし',
+                        data='callback',
+                        text='会津.川 or 海.希望なし'   
+                    )
+                    
+                ]
+            )
+            
+        ]
+        message_template = CarouselTemplate(columns=carousel_columns)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TemplateSendMessage(alt_text='carousel template', template=message_template)
+        )
+        
+    #「会津.森」に対しての返信 「求める効能」について質問する
+    elif content in ['会津.森']:
+        
+        carousel_columns = [
+            CarouselColumn(
+                text='希望す効能を選択してください',
+                title='効能で検索',
+                actions=[
+                    PostbackTemplateAction(
+                        label='会津.森.美肌',
+                        data='callback',
+                        text='会津.森.美肌'   
+                    ),
+                    PostbackTemplateAction(
+                        label='会津.森.傷',
+                        data='callback',
+                        text='会津.森.傷'   
+                    ),
+                    PostbackTemplateAction(
+                        label='会津.森.貧血',
+                        data='callback',
+                        text='会津.森.貧血'   
+                    )
+                ]
+            ),
+            CarouselColumn(
+                text='希望す効能を選択してください',
+                title='効能で検索',
+                actions=[
+                     PostbackTemplateAction(
+                        label='会津.森.生活習慣病',
+                        data='callback',
+                        text='会津.森.生活習慣病'   
+                    ),
+                     PostbackTemplateAction(
+                        label='会津.森.皮膚病',
+                        data='callback',
+                        text='会津.森.皮膚病'   
+                    ),
+                     PostbackTemplateAction(
+                        label='会津.森.希望なし',
+                        data='callback',
+                        text='会津.森.希望なし'   
+                    )
+                    
+                ]
+            )
+            
+        ]
+        message_template = CarouselTemplate(columns=carousel_columns)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TemplateSendMessage(alt_text='carousel template', template=message_template)
+        )
+        
+    #「会津.景色なし」に対しての返信 「求める効能」について質問する
+    elif content in ['会津.景色なし']:
+        
+        carousel_columns = [
+            CarouselColumn(
+                text='希望す効能を選択してください',
+                title='効能で検索',
+                actions=[
+                    PostbackTemplateAction(
+                        label='会津.景色なし.美肌',
+                        data='callback',
+                        text='会津.景色なし.美肌'   
+                    ),
+                    PostbackTemplateAction(
+                        label='会津.景色なし.傷',
+                        data='callback',
+                        text='会津.景色なし.傷'   
+                    ),
+                    PostbackTemplateAction(
+                        label='会津.景色なし.貧血',
+                        data='callback',
+                        text='会津.景色なし.貧血'   
+                    )
+                ]
+            ),
+            CarouselColumn(
+                text='希望す効能を選択してください',
+                title='効能で検索',
+                actions=[
+                     PostbackTemplateAction(
+                        label='会津.景色なし.生活習慣病',
+                        data='callback',
+                        text='会津.景色なし.生活習慣病'   
+                    ),
+                     PostbackTemplateAction(
+                        label='会津.景色なし.皮膚病',
+                        data='callback',
+                        text='会津.景色なし.皮膚病'   
+                    ),
+                     PostbackTemplateAction(
+                        label='会津.景色なし.希望なし',
+                        data='callback',
+                        text='会津.景色なし.希望なし'   
+                    )
+                    
+                ]
+            )
+            
+        ]
+        message_template = CarouselTemplate(columns=carousel_columns)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TemplateSendMessage(alt_text='carousel template', template=message_template)
+        )
+        
 
 
    
@@ -321,16 +620,12 @@ def handle_message(event):
                         label='浜通り.雪景色',
                         data='callback',
                         text='浜通り.雪景色'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='浜通り.紅葉',
                         data='callback',
                         text='浜通り.紅葉'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='浜通り.夜空',
                         data='callback',
@@ -346,20 +641,20 @@ def handle_message(event):
                         label='浜通り.川 or 海',
                         data='callback',
                         text='浜通り.川 or 海'
-                    )
-                ],
-                actions=[
+                    ),
+                
+                    
                     PostbackTemplateAction(
                         label='浜通り.森',
                         data='callback',
                         text='浜通り.森'
-                    )
-                ],
-                actions=[
+                    ),
+                    
+        
                     PostbackTemplateAction(
-                        label='浜通り.スキップ',
+                        label='浜通り.景色なし',
                         data='callback',
-                        text='浜通り.スキップ'
+                        text='浜通り.景色なし'
                     )
                 ]
             )
@@ -380,16 +675,16 @@ def handle_message(event):
                         label='浜通り.雪景色.美肌',
                         data='callback',
                         text='浜通り.雪景色.美肌'   
-                    )
-                ],
-                actions=[
+                    ),
+                
+                
                     PostbackTemplateAction(
                         label='浜通り.雪景色.傷',
                         data='callback',
                         text='浜通り.雪景色.傷'   
-                    )
-                ],
-                actions=[
+                    ),
+                
+                
                     PostbackTemplateAction(
                         label='浜通り.雪景色.貧血',
                         data='callback',
@@ -405,20 +700,20 @@ def handle_message(event):
                         label='浜通り.雪景色.生活習慣病',
                         data='callback',
                         text='浜通り.雪景色.生活習慣病'
-                    )
-                ],
-                actions=[
+                    ),
+                
+                
                     PostbackTemplateAction(
                         label='浜通り.雪景色.皮膚病',
                         data='callback',
                         text='浜通り.雪景色.皮膚病'
-                    )
-                ],
-                actions=[
+                    ),
+                
+                
                     PostbackTemplateAction(
-                        label='浜通り.雪景色.スキップ',
+                        label='浜通り.雪景色.効能なし',
                         data='callback',
-                        text='浜通り.雪景色.スキップ'
+                        text='浜通り.雪景色.効能なし'
                     )
                 ]
             )
@@ -439,16 +734,16 @@ def handle_message(event):
                         label='浜通り.紅葉.美肌',
                         data='callback',
                         text='浜通り.紅葉.美肌'   
-                    )
-                ],
-                actions=[
+                    ),
+                
+                
                     PostbackTemplateAction(
                         label='浜通り.紅葉.傷',
                         data='callback',
                         text='浜通り.紅葉.傷'   
-                    )
-                ],
-                actions=[
+                    ),
+                
+                
                     PostbackTemplateAction(
                         label='浜通り.紅葉.貧血',
                         data='callback',
@@ -464,20 +759,20 @@ def handle_message(event):
                         label='浜通り.紅葉.生活習慣病',
                         data='callback',
                         text='浜通り.紅葉.生活習慣病'
-                    )
-                ],
-                actions=[
+                    ),
+                
+                
                     PostbackTemplateAction(
                         label='浜通り.紅葉.皮膚病',
                         data='callback',
                         text='浜通り.紅葉.皮膚病'
-                    )
-                ],
-                actions=[
+                    ),
+                
+                
                     PostbackTemplateAction(
-                        label='浜通り.紅葉.スキップ',
+                        label='浜通り.紅葉.効能なし',
                         data='callback',
-                        text='浜通り.紅葉.スキップ'
+                        text='浜通り.紅葉.効能なし'
                     )
                 ]
             )
@@ -498,16 +793,15 @@ def handle_message(event):
                         label='浜通り.夜空.美肌',
                         data='callback',
                         text='浜通り.夜空.美肌'   
-                    )
-                ],
-                actions=[
+                    ),
+                
                     PostbackTemplateAction(
                         label='浜通り.夜空.傷',
                         data='callback',
                         text='浜通り.夜空.傷'   
-                    )
-                ],
-                actions=[
+                    ),
+                
+            
                     PostbackTemplateAction(
                         label='浜通り.夜空.貧血',
                         data='callback',
@@ -523,20 +817,18 @@ def handle_message(event):
                         label='浜通り.夜空.生活習慣病',
                         data='callback',
                         text='浜通り.夜空.生活習慣病'
-                    )
-                ],
-                actions=[
+                    ),
+
                     PostbackTemplateAction(
                         label='浜通り.夜空.皮膚病',
                         data='callback',
                         text='浜通り.夜空.皮膚病'
-                    )
-                ],
-                actions=[
+                    ),
+                    
                     PostbackTemplateAction(
-                        label='浜通り.夜空.スキップ',
+                        label='浜通り.夜空.効能なし',
                         data='callback',
-                        text='浜通り.夜空.スキップ'
+                        text='浜通り.夜空.効能なし'
                     )
                 ]
             )
@@ -557,16 +849,15 @@ def handle_message(event):
                         label='浜通り.川 or 海.美肌',
                         data='callback',
                         text='浜通り.川 or 海.美肌'   
-                    )
-                ],
-                actions=[
+                    ),
+                    
                     PostbackTemplateAction(
                         label='浜通り.川 or 海.傷',
                         data='callback',
                         text='浜通り.川 or 海.傷'   
-                    )
-                ],
-                actions=[
+                    ),
+                
+                
                     PostbackTemplateAction(
                         label='浜通り.川 or 海.貧血',
                         data='callback',
@@ -582,20 +873,20 @@ def handle_message(event):
                         label='浜通り.川 or 海.生活習慣病',
                         data='callback',
                         text='浜通り.川 or 海.生活習慣病'
-                    )
-                ],
-                actions=[
+                    ),
+                
+                
                     PostbackTemplateAction(
                         label='浜通り.川 or 海.皮膚病',
                         data='callback',
                         text='浜通り.川 or 海.皮膚病'
-                    )
-                ],
-                actions=[
+                    ),
+                
+                
                     PostbackTemplateAction(
-                        label='浜通り.川 or 海.スキップ',
+                        label='浜通り.川 or 海.効能なし',
                         data='callback',
-                        text='浜通り.川 or 海.スキップ'
+                        text='浜通り.川 or 海.効能なし'
                     )
                 ]
             )
@@ -616,16 +907,16 @@ def handle_message(event):
                         label='浜通り.森.美肌',
                         data='callback',
                         text='浜通り.森.美肌'   
-                    )
-                ],
-                actions=[
+                    ),
+                
+                
                     PostbackTemplateAction(
                         label='浜通り.森.傷',
                         data='callback',
                         text='浜通り.森.傷'   
-                    )
-                ],
-                actions=[
+                    ),
+                
+                
                     PostbackTemplateAction(
                         label='浜通り.森.貧血',
                         data='callback',
@@ -641,20 +932,20 @@ def handle_message(event):
                         label='浜通り.森.生活習慣病',
                         data='callback',
                         text='浜通り.森.生活習慣病'
-                    )
-                ],
-                actions=[
+                    ),
+                
+                
                     PostbackTemplateAction(
                         label='浜通り.森.皮膚病',
                         data='callback',
                         text='浜通り.森.皮膚病'
-                    )
-                ],
-                actions=[
+                    ),
+                
+                
                     PostbackTemplateAction(
-                        label='浜通り.森.スキップ',
+                        label='浜通り.森.効能なし',
                         data='callback',
-                        text='浜通り.森.スキップ'
+                        text='浜通り.森.効能なし'
                     )
                 ]
             )
@@ -664,31 +955,27 @@ def handle_message(event):
             event.reply_token,  
             TemplateSendMessage(alt_text='carousel template', template=message_template)
         )
-    ##「浜通り.スキップ」と受け取った時の処理
-    elif content in ['浜通り.スキップ']:
+##「浜通り.景色なし」と受け取った時の処理
+    elif content in ['浜通り.景色なし']:
         carousel_columns = [
             CarouselColumn(
                 text='希望する効能を選択してください',
                 title='効能で検索',
                 actions=[
                     PostbackTemplateAction(
-                        label='浜通り.スキップ.美肌',
+                        label='浜通り.景色なし.美肌',
                         data='callback',
-                        text='浜通り.スキップ.美肌'   
-                    )
-                ],
-                actions=[
+                        text='浜通り.景色なし.美肌'   
+                    ),
                     PostbackTemplateAction(
-                        label='浜通り.スキップ.傷',
+                        label='浜通り.景色なし.傷',
                         data='callback',
-                        text='浜通り.スキップ.傷'   
-                    )
-                ],
-                actions=[
+                        text='浜通り.景色なし.傷'   
+                    ),
                     PostbackTemplateAction(
-                        label='浜通り.スキップ.貧血',
+                        label='浜通り.景色なし.貧血',
                         data='callback',
-                        text='浜通り.スキップ.貧血'   
+                        text='浜通り.景色なし.貧血'   
                     )
                 ]
             ),
@@ -697,23 +984,19 @@ def handle_message(event):
                 title='効能で検索',
                 actions=[
                     PostbackTemplateAction(
-                        label='浜通り.スキップ.生活習慣病',
+                        label='浜通り.景色なし.生活習慣病',
                         data='callback',
-                        text='浜通り.スキップ.生活習慣病'
-                    )
-                ],
-                actions=[
+                        text='浜通り.景色なし.生活習慣病'
+                    ),
                     PostbackTemplateAction(
-                        label='浜通り.スキップ.皮膚病',
+                        label='浜通り.景色なし.皮膚病',
                         data='callback',
-                        text='浜通り.スキップ.皮膚病'
-                    )
-                ],
-                actions=[
+                        text='浜通り.景色なし.皮膚病'
+                    ),
                     PostbackTemplateAction(
-                        label='浜通り.スキップ.スキップ',
+                        label='浜通り.景色なし.効能なし',
                         data='callback',
-                        text='浜通り.スキップ.スキップ'
+                        text='浜通り.景色なし.効能なし'
                     )
                 ]
             )
@@ -741,17 +1024,13 @@ def handle_message(event):
                         label='中通り.雪景色',
                         data='callback',
                         text='中通り.雪景色'   
-                    )
-                ],
-                actions=[
+                    ),
+                
                     PostbackTemplateAction(
                         label='中通り.紅葉',
                         data='callback',
                         text='中通り.紅葉'   
-                    )
-                ],
-                
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.夜空',
                         data='callback',
@@ -767,20 +1046,16 @@ def handle_message(event):
                         label='中通り.川 or海',
                         data='callback',
                         text='中通り.川 or 海'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.森',
                         data='callback',
                         text='中通り.森'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
-                        label='中通り.スキップ',
+                        label='中通り.景色なし',
                         data='callback',
-                        text='中通り.スキップ'
+                        text='中通り.景色なし'
                     )
                 ]
             )
@@ -801,17 +1076,12 @@ def handle_message(event):
                         label='中通り.雪景色.美肌',
                         data='callback',
                         text='中通り.雪景色。美肌'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.雪景色.傷',
                         data='callback',
                         text='中通り.雪景色.傷'   
-                    )
-                ],
-                
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.雪景色.貧血',
                         data='callback',
@@ -827,20 +1097,16 @@ def handle_message(event):
                         label='中通り.雪景色.生活習慣病',
                         data='callback',
                         text='中通り.雪景色.生活習慣病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.雪景色.皮膚病',
                         data='callback',
                         text='中通り.雪景色.皮膚病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
-                        label='中通り.雪景色.スキップ',
+                        label='中通り.雪景色.効能なし',
                         data='callback',
-                        text='中通り.雪景色.スキップ'
+                        text='中通り.雪景色.効能なし'
                     )
                 ]
             )
@@ -861,16 +1127,12 @@ def handle_message(event):
                         label='中通り.紅葉.美肌',
                         data='callback',
                         text='中通り.紅葉.美肌'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.紅葉.傷',
                         data='callback',
                         text='中通り.紅葉.傷'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.紅葉.貧血',
                         data='callback',
@@ -886,20 +1148,16 @@ def handle_message(event):
                         label='中通り.紅葉.生活習慣病',
                         data='callback',
                         text='中通り.紅葉.生活習慣病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.紅葉.皮膚病',
                         data='callback',
                         text='中通り.紅葉.皮膚病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
-                        label='中通り.紅葉.効能スキップ',
+                        label='中通り.紅葉.効能なし',
                         data='callback',
-                        text='中通り.紅葉.効能スキップ'
+                        text='中通り.紅葉.効能なし'
                     )
                 ]
             )
@@ -920,16 +1178,12 @@ def handle_message(event):
                         label='中通り.夜空.美肌',
                         data='callback',
                         text='中通り.夜空.美肌'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.夜空.傷',
                         data='callback',
                         text='中通り.夜空.傷'   
-                    )
-                ],
-                actions=[
+                    ),      
                     PostbackTemplateAction(
                         label='中通り.夜空.貧血',
                         data='callback',
@@ -945,20 +1199,16 @@ def handle_message(event):
                         label='中通り.夜空.生活習慣病',
                         data='callback',
                         text='中通り.夜空.生活習慣病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.夜空.皮膚病',
                         data='callback',
                         text='中通り.夜空.皮膚病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
-                        label='中通り.夜空.効能スキップ',
+                        label='中通り.夜空.効能なし',
                         data='callback',
-                        text='中通り.夜空.効能スキップ'
+                        text='中通り.夜空.効能なし'
                     )
                 ]
             )
@@ -979,16 +1229,12 @@ def handle_message(event):
                         label='中通り.川 or 海.美肌',
                         data='callback',
                         text='中通り.川 or 海.美肌'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.川 or 海.傷',
                         data='callback',
                         text='中通り.川 or 海.傷'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.川 or 海.貧血',
                         data='callback',
@@ -1004,16 +1250,12 @@ def handle_message(event):
                         label='中通り.川 or 海.生活習慣病',
                         data='callback',
                         text='中通り.川 or 海.生活習慣病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.川 or 海.皮膚病',
                         data='callback',
                         text='中通り.川 or 海.皮膚病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.川 or 海.効能スキップ',
                         data='callback',
@@ -1038,16 +1280,12 @@ def handle_message(event):
                         label='中通り.森.美肌',
                         data='callback',
                         text='中通り.森.美肌'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.森.傷',
                         data='callback',
                         text='中通り.森.傷'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.森.貧血',
                         data='callback',
@@ -1063,20 +1301,16 @@ def handle_message(event):
                         label='中通り.森.生活習慣病',
                         data='callback',
                         text='中通り.森.生活習慣病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='中通り.森.皮膚病',
                         data='callback',
                         text='中通り.森.皮膚病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
-                        label='中通り.森.効能スキップ',
+                        label='中通り.森.効能なし',
                         data='callback',
-                        text='中通り.森.効能スキップ'
+                        text='中通り.森.効能なし'
                     )
                 ]
             )
@@ -1102,16 +1336,13 @@ def handle_message(event):
                         label='場所無し.雪景色',
                         data='callback',
                         text='場所無し.雪景色'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.紅葉',
                         data='callback',
                         text='場所無し.紅葉'   
-                    )
-                ],
-                actions=[
+                    ),
+                
                     PostbackTemplateAction(
                         label='場所無し.夜空',
                         data='callback',
@@ -1127,18 +1358,14 @@ def handle_message(event):
                         label='場所無し.川 or 海',
                         data='callback',
                         text='場所無し.川 or 海'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.森',
                         data='callback',
                         text='場所無し.森'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
-                        label='場所無し.スキップ',
+                        label='場所無し.景色',
                         data='callback',
                         text='場所無し.スキップ'
                     )
@@ -1161,16 +1388,12 @@ def handle_message(event):
                         label='場所無し.雪景色.美肌',
                         data='callback',
                         text='場所無し.雪景色.美肌'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.雪景色.傷',
                         data='callback',
                         text='場所無し.雪景色.傷'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.雪景色.貧血',
                         data='callback',
@@ -1186,16 +1409,12 @@ def handle_message(event):
                         label='場所無し.雪景色.生活習慣病',
                         data='callback',
                         text='場所無し.雪景色.生活習慣病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.雪景色.皮膚病',
                         data='callback',
                         text='場所無し.雪景色.皮膚病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.雪景色.スキップ',
                         data='callback',
@@ -1221,16 +1440,12 @@ def handle_message(event):
                         label='場所無し.紅葉.美肌',
                         data='callback',
                         text='場所無し.紅葉.美肌'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.紅葉.傷',
                         data='callback',
                         text='場所無し.紅葉.傷'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.紅葉.貧血',
                         data='callback',
@@ -1246,20 +1461,16 @@ def handle_message(event):
                         label='場所無し.川 or 海.生活習慣病',
                         data='callback',
                         text='場所無し.川 or 海.生活習慣病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.森.皮膚病',
                         data='callback',
                         text='場所無し.森.皮膚病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
-                        label='場所無し.スキップ.スキップ',
+                        label='場所無し.景色なし.効能なし',
                         data='callback',
-                        text='場所無し.スキップ.スキップ'
+                        text='場所無し.景色なし.効能なし'
                     )
                 ]
             )     
@@ -1281,16 +1492,12 @@ def handle_message(event):
                         label='場所無し.夜空.美肌',
                         data='callback',
                         text='場所無し.夜空.美肌'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.夜空.傷',
                         data='callback',
                         text='場所無し.夜空.傷'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.夜空.貧血',
                         data='callback',
@@ -1306,20 +1513,16 @@ def handle_message(event):
                         label='場所無し.夜空.生活習慣病',
                         data='callback',
                         text='場所無し.夜空.生活習慣病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.夜空.皮膚病',
                         data='callback',
                         text='場所無し.夜空.皮膚病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
-                        label='場所無し.夜空.スキップ',
+                        label='場所無し.夜空.効能なし',
                         data='callback',
-                        text='場所無し.夜空.スキップ'
+                        text='場所無し.夜空.効能なし'
                     )
                 ]
             )     
@@ -1341,16 +1544,13 @@ def handle_message(event):
                         label='場所無し.川 or 海.美肌',
                         data='callback',
                         text='場所無し.川 or 海.美肌'   
-                    )
-                ],
-                actions=[
+                    ),
+
                     PostbackTemplateAction(
                         label='場所無し.川 or 海.傷',
                         data='callback',
                         text='場所無し.川 or 海.傷'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.川 or 海.貧血',
                         data='callback',
@@ -1366,20 +1566,16 @@ def handle_message(event):
                         label='場所無し.川 or 海.生活習慣病',
                         data='callback',
                         text='場所無し.川 or 海.生活習慣病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.川 or 海.皮膚病',
                         data='callback',
                         text='場所無し.川 or 海.皮膚病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
-                        label='場所無し.川 or 海.スキップ',
+                        label='場所無し.川 or 海.効能なし',
                         data='callback',
-                        text='場所無し.川 or 海.スキップ'
+                        text='場所無し.川 or 海.効能なし'
                     )
                 ]
             )     
@@ -1401,16 +1597,12 @@ def handle_message(event):
                         label='場所無し.森.美肌',
                         data='callback',
                         text='場所無し.森.美肌'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.森.傷',
                         data='callback',
                         text='場所無し.森.傷'   
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.森.貧血',
                         data='callback',
@@ -1426,20 +1618,16 @@ def handle_message(event):
                         label='場所無し.森.生活習慣病',
                         data='callback',
                         text='場所無し.森.生活習慣病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
                         label='場所無し.森.皮膚病',
                         data='callback',
                         text='場所無し.森.皮膚病'
-                    )
-                ],
-                actions=[
+                    ),
                     PostbackTemplateAction(
-                        label='場所無し.森.スキップ',
+                        label='場所無し.森.効能なし',
                         data='callback',
-                        text='場所無し.森.スキップ'
+                        text='場所無し.森.効能なし'
                     )
                 ]
             )     
@@ -1450,31 +1638,27 @@ def handle_message(event):
             TemplateSendMessage(alt_text='carousel template', template=message_template)
         )
 
-     #「場所無し.スキップ」と受け取った場合の処理
-    elif content in ['場所無し.スキップ']:
+     #「場所無し.景色なし」と受け取った場合の処理
+    elif content in ['場所なし.景色なし']:
         carousel_columns = [
             CarouselColumn(
                 text='希望する景色を選択してください',
                 title='タップで検索',
                 actions=[
                     PostbackTemplateAction(
-                        label='場所無し.スキップ.美肌',
+                        label='場所無し.景色なし.美肌',
                         data='callback',
-                        text='場所無し.スキップ.美肌'   
-                    )
-                ],
-                actions=[
+                        text='場所無し.景色なし.美肌'   
+                    ),
                     PostbackTemplateAction(
-                        label='場所無し.スキップ.傷',
+                        label='場所無し.景色なし.傷',
                         data='callback',
-                        text='場所無し.スキップ.傷'   
-                    )
-                ],
-                actions=[
+                        text='場所無し.景色なし.傷'   
+                    ),
                     PostbackTemplateAction(
-                        label='場所無し.スキップ.貧血',
+                        label='場所無し.景色なし.貧血',
                         data='callback',
-                        text='場所無し.スキップ.貧血'   
+                        text='場所無し.景色なし.貧血'   
                     )
                 ]
             ),
@@ -1483,23 +1667,19 @@ def handle_message(event):
                 title='タップで検索',
                 actions=[
                     PostbackTemplateAction(
-                        label='場所無し.スキップ.生活習慣病',
+                        label='場所無し.景色なし.生活習慣病',
                         data='callback',
-                        text='場所無し.スキップ.生活習慣病'
-                    )
-                ],
-                actions=[
+                        text='場所無し.景色なし.生活習慣病'
+                    ),
                     PostbackTemplateAction(
-                        label='場所無し.スキップ.皮膚病',
+                        label='場所無し.景色なし.皮膚病',
                         data='callback',
-                        text='場所無し.スキップ.皮膚病'
-                    )
-                ],
-                actions=[
+                        text='場所無し.景色なし.皮膚病'
+                    ),
                     PostbackTemplateAction(
-                        label='場所無し.スキップ.スキップ',
+                        label='場所無し.景色なし.効能なし',
                         data='callback',
-                        text='場所無し.スキップ.スキップ'
+                        text='場所無し.景色なし.効能なし'
                     )
                 ]
             )     
@@ -1511,31 +1691,27 @@ def handle_message(event):
         )
 
 
-     #「場所無し.スキップ」と受け取った場合の処理
-    elif content in ['場所無し.スキップ']:
+     #「場所なし」と受け取った場合の処理
+    elif content in ['場所なし.景色なし.美肌']:
         carousel_columns = [
             CarouselColumn(
                 text='希望する景色を選択してください',
                 title='タップで検索',
                 actions=[
                     PostbackTemplateAction(
-                        label='場所無し.スキップ.美肌',
+                        label='場所なし.景色なし.美肌',
                         data='callback',
-                        text='場所無し.スキップ.美肌'   
-                    )
-                ],
-                actions=[
+                        text='場所なし.景色なし.美肌'   
+                    ),
                     PostbackTemplateAction(
-                        label='場所無し.スキップ.傷',
+                        label='場所なし.景色なし.傷',
                         data='callback',
-                        text='場所無し.スキップ.傷'   
-                    )
-                ],
-                actions=[
+                        text='場所なし.景色なし.傷'   
+                    ),
                     PostbackTemplateAction(
-                        label='場所無し.スキップ.貧血',
+                        label='場所なし.景色なし.貧血',
                         data='callback',
-                        text='場所無し.スキップ.貧血'   
+                        text='場所なし.景色なし.貧血'   
                     )
                 ]
             ),
@@ -1544,23 +1720,19 @@ def handle_message(event):
                 title='タップで検索',
                 actions=[
                     PostbackTemplateAction(
-                        label='場所無し.スキップ.生活習慣病',
+                        label='場所なし.景色なし.生活習慣病',
                         data='callback',
-                        text='場所無し.スキップ.生活習慣病'
-                    )
-                ],
-                actions=[
+                        text='場所なし.景色なし.生活習慣病'
+                    ),
                     PostbackTemplateAction(
-                        label='場所無し.スキップ.皮膚病',
+                        label='場所なし.景色なし.皮膚病',
                         data='callback',
-                        text='場所無し.スキップ.皮膚病'
-                    )
-                ],
-                actions=[
+                        text='場所なし.景色なし.皮膚病'
+                    ),
                     PostbackTemplateAction(
-                        label='場所無し.スキップ.スキップ',
+                        label='場所なし.景色なし.効能なし',
                         data='callback',
-                        text='場所無し.スキップ.スキップ'
+                        text='場所なし.景色なし.効能なし'
                     )
                 ]
             )     
@@ -1572,58 +1744,19 @@ def handle_message(event):
         )
 
      #「場所無し.雪景色.美肌」と受け取った場合の処理
-    elif content in ['場所無し.雪景色.美肌']:
+    elif content in ['場所なし.雪景色.美肌']:
         carousel_columns = [
             CarouselColumn(
                 text='希望する景色を選択してください',
                 title='タップで検索',
                 actions=[
                     PostbackTemplateAction(
-                        label='場所無し.雪景色.美肌',
+                        label='温泉',
                         data='callback',
-                        text='場所無し.雪景色.美肌'   
-                    )
-                ],
-                actions=[
-                    PostbackTemplateAction(
-                        label='場所無し.雪景色.傷',
-                        data='callback',
-                        text='場所無し.雪景色.傷'   
-                    )
-                ],
-                actions=[
-                    PostbackTemplateAction(
-                        label='場所無し.雪景色.貧血',
-                        data='callback',
-                        text='場所無し.雪景色.貧血'   
+                        text='温泉'   
                     )
                 ]
-            ),
-            CarouselColumn(
-                text='希望する景色を選択してください',
-                title='タップで検索',
-                actions=[
-                    PostbackTemplateAction(
-                        label='場所無し.雪景色.生活習慣病',
-                        data='callback',
-                        text='場所無し.雪景色.生活習慣病'
-                    )
-                ],
-                actions=[
-                    PostbackTemplateAction(
-                        label='場所無し.雪景色.皮膚病',
-                        data='callback',
-                        text='場所無し.雪景色.皮膚病'
-                    )
-                ],
-                actions=[
-                    PostbackTemplateAction(
-                        label='場所無し.雪景色.スキップ',
-                        data='callback',
-                        text='場所無し.雪景色.スキップ'
-                    )
-                ]
-            )     
+            )
         ]
         message_template = CarouselTemplate(columns=carousel_columns)
         line_bot_api.reply_message(
@@ -1633,15 +1766,7 @@ def handle_message(event):
 
 
 ##　　　ここから下は触らない
-#----------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
+#-----------------------------------------------------------------------------------------------------------------------------------------------
 
     # 以下サブカテゴリ
     elif content in ['会津']:
